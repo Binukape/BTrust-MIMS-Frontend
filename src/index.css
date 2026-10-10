@@ -1,0 +1,205 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/jetbrains-mono";
+@import "tailwindcss";
+
+@theme {
+
+  --color-canvas: #05060f;
+  --color-ink: #d1e4fa;
+  --color-ice: #d8ecf8;
+  --color-steel: #9da7ba;
+  --color-fog: #c7d3ea;
+  --color-mist: rgb(186 214 247 / 0.06);
+  --color-mint: rgb(186 215 247 / 0.12);
+  --color-navy: rgb(186 214 247 / 0.14);
+  --color-glass: rgb(186 214 247 / 0.03);
+  --color-coral: #e46d4c;
+  --color-violet: #663af3;
+
+  --font-sans: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --shadow-edge: rgba(186, 215, 247, 0.12) 0px 0px 0px 1px inset;
+  --shadow-edge-strong: rgba(186, 214, 247, 0.24) 0px 0px 0px 1px inset;
+  --shadow-glass: rgba(199, 211, 234, 0.12) 0px 1px 1px 0px inset, rgba(199, 211, 234, 0.05) 0px 24px 48px 0px inset, rgba(6, 6, 14, 0.7) 0px 24px 32px 0px;
+  --shadow-modal: rgba(216, 236, 248, 0.2) 0px 1px 1px 0px inset, rgba(168, 216, 245, 0.06) 0px 24px 48px 0px inset, rgba(0, 0, 0, 0.3) 0px 16px 32px 0px;
+}
+
+@layer base {
+  :root {
+    --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+    background-color: var(--color-canvas);
+  }
+
+  html, body, #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      conic-gradient(from 0deg at 50% -5%, transparent 45%, rgb(124 145 182 / 0.3) 49%, rgb(124 145 182 / 0.5) 50%, rgb(124 145 182 / 0.3) 51%, transparent 55%),
+      linear-gradient(rgb(186 215 247 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(186 215 247 / 0.06) 1px, transparent 1px);
+    background-size: 100% 100%, 80px 80px, 80px 80px;
+    background-position: 0 0, center top, center top;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 25%, transparent 80%);
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 25%, transparent 80%);
+  }
+
+  a,
+  button,
+  input,
+  select,
+  tbody tr {
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+    transition-duration: 220ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  a {
+    color: var(--color-ice);
+    text-underline-offset: 3px;
+  }
+
+  ::placeholder {
+    color: var(--color-fog);
+    opacity: 0.6;
+  }
+
+  select {
+    color-scheme: dark;
+  }
+
+  select option,
+  select optgroup {
+    background-color: #0b0e1a;
+    color: #d1e4fa;
+  }
+
+  select option:checked {
+    background-color: #1c2538;
+    color: #ffffff;
+  }
+
+  select option:disabled {
+    color: #6b7686;
+  }
+
+  ::selection {
+    background: rgb(102 58 243 / 0.5);
+    color: #fff;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: normal;
+}
+
+@utility text-skywash {
+  background-image: linear-gradient(0deg, #d8ecf8 0%, #98c0ef 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-fog);
+}
+
+@keyframes portal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes item-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes alert-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@utility animate-portal-fade {
+  animation: portal-fade 700ms var(--ease-out) both;
+}
+
+@utility animate-item {
+  animation: item-in 650ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+
+@utility animate-card {
+  animation: item-in 650ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 140ms);
+}
+
+@utility animate-row {
+  animation: row-in 420ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 28ms);
+}
+
+@utility animate-alert {
+  animation: alert-in 300ms var(--ease-out) both;
+}
+
+@utility skeleton {
+  border-radius: 8px;
+  background-color: rgb(186 214 247 / 0.05);
+  background-image: linear-gradient(90deg, transparent 0%, rgb(186 214 247 / 0.1) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
